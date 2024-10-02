@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Movement")]
     public float moveSpeed = 5.0f;
     public float JumpForce = 5.0f;
+    public float rotationSpeed = 10.0f;
 
     [Header("Camera Settings")]
     public Camera firstPersonCamera;
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private float targetVericalRotation;
     private float verticalRoatationSpeed = 240f;
 
-    private bool isFirstPerson = true;
+    public bool isFirstPerson = true;
     private bool isGrounded;
     private Rigidbody rd;
     // Start is called before the first frame update
@@ -41,10 +42,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
         HandleRotation();
         HandleJump();
         HandleCameeraToggle();
+    }
+
+    private void FixedUpdate()
+    {
+        HandleMovement();
     }
 
     void SetActiveCamera()
@@ -63,7 +68,7 @@ public class PlayerController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;
 
-       
+
 
         theta += mouseX;
         theta = Mathf.Repeat(theta, 360.0f);
@@ -72,17 +77,17 @@ public class PlayerController : MonoBehaviour
         targetVericalRotation = Mathf.Clamp(targetVericalRotation, yMinLimit, YMaxLimit);
         phi = Mathf.MoveTowards(phi, targetVericalRotation, verticalRoatationSpeed * Time.deltaTime);
 
-        transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
 
-        firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);
 
-        if(isFirstPerson)
+        if (isFirstPerson)
         {
             firstPersonCamera.transform.localRotation = Quaternion.Euler(phi, 0.0f, 0.0f);
+
+            transform.rotation = Quaternion.Euler(0.0f, theta, 0.0f);
         }
         else
         {
-            float x = radius *Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);
+            float x = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);
             float y = radius * Mathf.Cos(Mathf.Deg2Rad * phi);
             float z = radius * Mathf.Sin(Mathf.Deg2Rad * phi) * Mathf.Cos(Mathf.Deg2Rad * theta);
 
@@ -94,7 +99,7 @@ public class PlayerController : MonoBehaviour
     }
     void HandleCameeraToggle()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             isFirstPerson = !isFirstPerson;
             SetActiveCamera();
@@ -103,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleJump()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rd.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             isGrounded = false;
@@ -114,6 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement;
 
         if (!isFirstPerson)
         {
@@ -126,18 +133,28 @@ public class PlayerController : MonoBehaviour
             cameraRight.Normalize();
 
 
-            Vector3 movement = cameraRight * moveHorizontal + cameraForward * moveVertical;
-            rd.MovePosition(rd.position + movement * moveSpeed * Time.deltaTime);
+            movement = cameraRight * moveHorizontal + cameraForward * moveVertical;
         }
         else
         {
-            Vector3 movement = transform.right * moveHorizontal + transform.forward* moveVertical;
-            rd.MovePosition(rd.position + movement * moveSpeed * Time.deltaTime);
+            movement = transform.right * moveHorizontal + transform.forward * moveVertical;
+
         }
+        if (movement.magnitude > 0.1f)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        rd.MovePosition(rd.position + movement * moveSpeed * Time.deltaTime);
+
     }
+
 
     private void OnCollisionStay(Collision collision)
     {
         isGrounded = true;
     }
 }
+        
+   

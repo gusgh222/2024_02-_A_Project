@@ -599,6 +599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   JumpForce: 5
+  rotationSpeed: 10
   firstPersonCamera: {fileID: 330585545}
   thirdPersonCamera: {fileID: 603134091}
   mouseSenesitivity: 2
@@ -607,6 +608,7 @@ MonoBehaviour:
   maxRadius: 10
   yMinLimit: -90
   YMaxLimit: 90
+  isFirstPerson: 1
 --- !u!54 &1189867657
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -830,6 +832,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1552111924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552111926}
+  - component: {fileID: 1552111925}
+  - component: {fileID: 1552111927}
+  m_Layer: 0
+  m_Name: Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1552111925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552111924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 956d66e364616864fb9e72823792ae25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 10
+  height: 10
+  cellSize: 1
+  cellPrefabs: {fileID: 5125262119256900386, guid: 23c7c610df25d1e4892eba20146f7a45,
+    type: 3}
+  builingPrefabs: {fileID: 1580140825174191147, guid: 27cdec36ce2b3f4408631e594f44fb79,
+    type: 3}
+  playerController: {fileID: 1189867656}
+  grid: {fileID: 1552111927}
+--- !u!4 &1552111926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552111924}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.37941647, y: 0.04742753, z: -1.7312678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!156049354 &1552111927
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552111924}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -838,3 +906,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1423033911}
   - {fileID: 1189867661}
+  - {fileID: 1552111926}
