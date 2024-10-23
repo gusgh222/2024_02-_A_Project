@@ -12,11 +12,24 @@ public class PlayerController : MonoBehaviour
     [Header("Camera Settings")]
     public Camera firstPersonCamera;
     public Camera thirdPersonCamera;
-    public float mouseSenesitivity = 2.0f;
+    public float mouseSenesitivity = 200.0f;
+
+    public float cameraDistance = 5.0f;
+    public float minDistance = 1.0f;
+    public float maxDistance = 10.0f;
+
+    private float currenX = 0.0f;
+    private float currenY = 45.0f;
+
+    private const float Y_ANGLE_MIN = 0.0f;
+    private const float Y_ANGLE_MAX = 50.0f;
 
     public float radius = 5.0f;
     public float minRadius = 1.0f;
     public float maxRadius = 10.0f;
+
+    
+
 
     public float yMinLimit = -90;
     public float YMaxLimit = 90;
@@ -75,8 +88,28 @@ public class PlayerController : MonoBehaviour
 
     void HandleRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSenesitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSenesitivity * Time.deltaTime;
+
+        if (isFirstPerson)
+        {
+            transform.rotation = Quaternion.Euler(0.0f, currenX, 0.0f);
+            firstPersonCamera.transform.localRotation = Quaternion.Euler(currenY, 0.0f, 0.0f);
+        }
+        else
+        {
+            currenX = mouseX;
+            currenY = mouseY;
+
+            currenY = Mathf.Clamp(currenY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+
+            Vector3 dir = new Vector3(0,0, -cameraDistance);
+            Quaternion rotation = Quaternion.Euler(currenY, currenX, 0);
+            thirdPersonCamera.transform.position =transform.position + rotation * dir;
+            thirdPersonCamera.transform.LookAt(transform.position);
+
+            cameraDistance = Mathf.Clamp(cameraDistance - Input.GetAxis("Mouse ScrollWheel") * 5, minDistance, maxDistance);
+        }
 
 
 

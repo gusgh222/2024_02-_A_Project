@@ -6,11 +6,13 @@ public abstract class PlayerState
 {
     protected PlayerStateMachine stareMachine;
     protected PlayerController playerController;
+    protected PlayerAnimatorManager animatorManager;
 
     public PlayerState(PlayerStateMachine stateMachine)
     {
         this.stareMachine = stateMachine;
         this.playerController = stateMachine.playerController;
+        this.animatorManager = stateMachine.GetComponent<PlayerAnimatorManager>();
     }
 
     public virtual void Enter() { }
@@ -61,9 +63,11 @@ public abstract class PlayerState
 
     public class MoveingState : PlayerState
     {
+        private bool isRunning;
         public MoveingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
         public override void Update()
         {
+            isRunning = Input.GetKey(KeyCode.LeftShift);
             CheckTransitions();
         }
 
