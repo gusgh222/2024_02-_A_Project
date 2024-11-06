@@ -9,7 +9,7 @@ public class PlayerAnimatorManager : MonoBehaviour
     public PlayerStateMachine stateMachine;
 
 
-    private const string PARAM_IS_MOVEING = "IsMoving";
+    private const string PARAM_IS_MOVEING = "IsMoveing";
     private const string PARAM_IS_RUNNING = "IsRunning";
     private const string PARAM_IS_JUMPING = "IsJumping";
     private const string PARAM_IS_FALLING = "IsFalling";

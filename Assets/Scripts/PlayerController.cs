@@ -12,14 +12,15 @@ public class PlayerController : MonoBehaviour
     [Header("Camera Settings")]
     public Camera firstPersonCamera;
     public Camera thirdPersonCamera;
+
     public float mouseSenesitivity = 200.0f;
 
     public float cameraDistance = 5.0f;
     public float minDistance = 1.0f;
     public float maxDistance = 10.0f;
 
-    private float currenX = 0.0f;
-    private float currenY = 45.0f;
+    private float currentX = 0.0f;
+    private float currentY = 45.0f;
 
     private const float Y_ANGLE_MIN = 0.0f;
     private const float Y_ANGLE_MAX = 50.0f;
@@ -93,18 +94,18 @@ public class PlayerController : MonoBehaviour
 
         if (isFirstPerson)
         {
-            transform.rotation = Quaternion.Euler(0.0f, currenX, 0.0f);
-            firstPersonCamera.transform.localRotation = Quaternion.Euler(currenY, 0.0f, 0.0f);
+            transform.rotation = Quaternion.Euler(0.0f, currentX, 0.0f);
+            firstPersonCamera.transform.localRotation = Quaternion.Euler(currentY, 0.0f, 0.0f);
         }
         else
         {
-            currenX = mouseX;
-            currenY = mouseY;
+            currentX += mouseX;
+            currentY -= mouseY;
 
-            currenY = Mathf.Clamp(currenY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+            currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
             Vector3 dir = new Vector3(0,0, -cameraDistance);
-            Quaternion rotation = Quaternion.Euler(currenY, currenX, 0);
+            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
             thirdPersonCamera.transform.position =transform.position + rotation * dir;
             thirdPersonCamera.transform.LookAt(transform.position);
 
