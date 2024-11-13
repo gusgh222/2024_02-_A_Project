@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -9,6 +10,71 @@ public class PlayerInventory : MonoBehaviour
     public int bushCount = 0;
     public int treeCount = 0;
 
+
+    public void AddItem(ItemType itemType, int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            AddItem(itemType);
+        }
+    }
+
+    public bool RemoveItem(ItemType itemType, int amount = 1)
+    {
+        switch (itemType)
+        {
+            case ItemType.Crystal:
+                if (crystalCount >= amount)
+                {
+                    crystalCount -= amount;
+                    Debug.Log($"크리스탈 {amount} 사용 ! 현재개수 : {crystalCount}");
+                    return true;
+                }
+                break;
+            case ItemType.Plant:
+                if (crystalCount >= amount)
+                {
+                    crystalCount -= amount;
+                    Debug.Log($"식물 {amount} 사용 ! 현재개수 : {crystalCount}");
+                    return true;
+                }
+                break;
+            case ItemType.Bush:
+                if (crystalCount >= amount)
+                {
+                    crystalCount -= amount;
+                    Debug.Log($"수풀 {amount} 사용 ! 현재개수 : {crystalCount}");
+                    return true;
+                }
+                break;
+            case ItemType.Tree:
+                if (crystalCount >= amount)
+                {
+                    crystalCount -= amount;
+                    Debug.Log($"나무 {amount} 사용 ! 현재개수 : {crystalCount}");
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    private int GetItemCount(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.Crystal:
+                return crystalCount;
+            case ItemType.Plant:
+                return crystalCount;
+            case ItemType.Bush:
+                return crystalCount;
+            case ItemType.Tree:
+                return crystalCount;
+            default:
+                return 0;
+        }
+    }
     public void AddItem(ItemType itemType)
     {
         switch (itemType)
