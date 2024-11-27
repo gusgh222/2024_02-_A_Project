@@ -89,7 +89,7 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    private int GetItemCount(ItemType itemType)
+    public int GetItemCount(ItemType itemType)
     {
         switch (itemType)
         {

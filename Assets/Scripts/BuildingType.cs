@@ -22,5 +22,5 @@ public class CraftingRecipe
     public float repairAmount;
 
     public ItemType[] requiredItems;
-    private int[] requiredAmounts;
+    public int[] requiredAmounts;
 }
