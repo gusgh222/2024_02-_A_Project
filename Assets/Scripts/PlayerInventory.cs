@@ -12,6 +12,9 @@ public class PlayerInventory : MonoBehaviour
     public int bushCount = 0;
     public int treeCount = 0;
 
+    public int vegetalbleStewCiunt = 0;
+    public int fruitSaledCount = 0;
+    public int repairKitCount = 0;
 
     public void Start()
     {
@@ -85,6 +88,30 @@ public class PlayerInventory : MonoBehaviour
                     return true;
                 }
                 break;
+            case ItemType.VeagetableStew:
+                if (vegetalbleStewCiunt >= amount)
+                {
+                    vegetalbleStewCiunt -= amount;
+                    Debug.Log($"야채 스트 {amount} 사용 ! 현재개수 : {vegetalbleStewCiunt}");
+                    return true;
+                }
+                break;
+            case ItemType.FruitSalad:
+                if (fruitSaledCount >= amount)
+                {
+                    fruitSaledCount -= amount;
+                    Debug.Log($"과일 샐러드 {amount} 사용 ! 현재개수 : {fruitSaledCount}");
+                    return true;
+                }
+                break;
+            case ItemType.RepairKit:
+                if (repairKitCount >= amount)
+                {
+                    repairKitCount -= amount;
+                    Debug.Log($"수리 키트 {amount} 사용 ! 현재개수 : {repairKitCount}");
+                    return true;
+                }
+                break;
         }
         return false;
     }
@@ -101,6 +128,14 @@ public class PlayerInventory : MonoBehaviour
                 return crystalCount;
             case ItemType.Tree:
                 return crystalCount;
+
+            case ItemType.VeagetableStew:
+                return vegetalbleStewCiunt;
+            case ItemType.FruitSalad:
+                return fruitSaledCount;
+            case ItemType.RepairKit:
+                return repairKitCount;
+
             default:
                 return 0;
         }
@@ -124,6 +159,19 @@ public class PlayerInventory : MonoBehaviour
             case ItemType.Tree:
                 treeCount++;
                 Debug.Log($"나무 획득 ! 현재 개수 : {treeCount}");
+                break;
+
+            case ItemType.VeagetableStew:
+                treeCount++;
+                Debug.Log($"야채 스튜 획득 ! 현재 개수 : {vegetalbleStewCiunt}");
+                break;
+            case ItemType.FruitSalad:
+                treeCount++;
+                Debug.Log($"과일 샐러드 획득 ! 현재 개수 : {fruitSaledCount}");
+                break;
+            case ItemType.RepairKit:
+                treeCount++;
+                Debug.Log($"수리  키트 획득 ! 현재 개수 : {repairKitCount}");
                 break;
 
         }
